@@ -73,3 +73,11 @@ class EightOClockView (ctx : Context) : View(ctx) {
         }
     }
 }
+
+fun Canvas.drawRotatedLine (w : Float, deg : Float, paint : Paint) {
+    paint.strokeCap = Paint.Cap.ROUND
+    save()
+    rotate(deg)
+    drawLine(0f, 0f, -w, 0f, paint)
+    restore()
+}
