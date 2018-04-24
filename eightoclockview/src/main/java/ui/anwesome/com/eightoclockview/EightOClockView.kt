@@ -72,6 +72,31 @@ class EightOClockView (ctx : Context) : View(ctx) {
             }
         }
     }
+
+    data class EightOClock (var i : Int, val state : State = State()) {
+
+        fun draw(canvas : Canvas, paint : Paint) {
+            val w : Float = canvas.width.toFloat()
+            val h : Float = canvas.height.toFloat()
+            paint.color = Color.parseColor("#673AB7")
+            paint.style = Paint.Style.STROKE
+            paint.strokeWidth = Math.min(w, h)/50
+            canvas.save()
+            canvas.translate(w/2, h/2)
+            canvas.drawCircle(0f, 0f, 3 * w/8, paint)
+            canvas.drawRotatedLine(w/3, 90f, paint)
+            canvas.drawRotatedLine(w/5, -30f, paint)
+            canvas.restore()
+        }
+
+        fun update(stopcb : (Float) -> Unit) {
+            state.update(stopcb)
+        }
+
+        fun startUpdating(startcb : () -> Unit) {
+            state.startUpdating(startcb)
+        }
+    }
 }
 
 fun Canvas.drawRotatedLine (w : Float, deg : Float, paint : Paint) {
