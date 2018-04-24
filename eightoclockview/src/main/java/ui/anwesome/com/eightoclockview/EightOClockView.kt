@@ -4,6 +4,7 @@ package ui.anwesome.com.eightoclockview
  * Created by anweshmishra on 24/04/18.
  */
 
+import android.app.Activity
 import android.view.*
 import android.graphics.*
 import android.content.Context
@@ -122,6 +123,14 @@ class EightOClockView (ctx : Context) : View(ctx) {
             }
         }
     }
+    companion object {
+        fun create(activity: Activity): EightOClockView {
+            val view: EightOClockView = EightOClockView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
+
 }
 
 fun Canvas.drawRotatedLine (w : Float, deg : Float, paint : Paint) {
