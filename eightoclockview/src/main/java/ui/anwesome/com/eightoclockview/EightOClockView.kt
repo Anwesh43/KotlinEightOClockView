@@ -47,7 +47,7 @@ class EightOClockView (ctx : Context) : View(ctx) {
 
     data class Animator (var view : View, var animated : Boolean = false) {
 
-        fun animate (updatecb : () -> Float) {
+        fun animate (updatecb : () -> Unit) {
             if (animated) {
                 updatecb()
                 try {
@@ -95,6 +95,29 @@ class EightOClockView (ctx : Context) : View(ctx) {
 
         fun startUpdating(startcb : () -> Unit) {
             state.startUpdating(startcb)
+        }
+    }
+
+    data class Renderer (var view : EightOClockView) {
+
+        private val eightOClock : EightOClock = EightOClock(0)
+
+        private val animator : Animator = Animator(view)
+
+        fun render(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(Color.parseColor("#212121"))
+            eightOClock.draw(canvas, paint)
+            animator.animate {
+                eightOClock.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            eightOClock.startUpdating {
+                animator.start()
+            }
         }
     }
 }
