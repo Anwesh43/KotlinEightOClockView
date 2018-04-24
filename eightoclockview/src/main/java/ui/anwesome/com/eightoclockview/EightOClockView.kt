@@ -15,8 +15,15 @@ class EightOClockView (ctx : Context) : View(ctx) {
 
     private val renderer : Renderer = Renderer(this)
 
+    var onClockListener : OnEightOClockListener? = null
+
     override fun onDraw(canvas : Canvas) {
         renderer.render(canvas, paint)
+    }
+
+
+    fun addOnEightOClockListener (listener: () -> Unit) {
+        onClockListener = OnEightOClockListener(listener)
     }
 
     override fun onTouchEvent(event : MotionEvent) : Boolean {
@@ -113,6 +120,9 @@ class EightOClockView (ctx : Context) : View(ctx) {
             animator.animate {
                 eightOClock.update {
                     animator.stop()
+                    when (it) {
+                        1f -> view.onClockListener?.listener?.invoke()
+                    }
                 }
             }
         }
@@ -123,6 +133,7 @@ class EightOClockView (ctx : Context) : View(ctx) {
             }
         }
     }
+
     companion object {
         fun create(activity: Activity): EightOClockView {
             val view: EightOClockView = EightOClockView(activity)
@@ -131,6 +142,7 @@ class EightOClockView (ctx : Context) : View(ctx) {
         }
     }
 
+    data class OnEightOClockListener (var listener : () -> Unit)
 }
 
 fun Canvas.drawRotatedLine (w : Float, deg : Float, scale : Float, paint : Paint) {
