@@ -87,8 +87,8 @@ class EightOClockView (ctx : Context) : View(ctx) {
             canvas.save()
             canvas.translate(w/2, h/2)
             canvas.drawCircle(0f, 0f, 3 * w/8, paint)
-            canvas.drawRotatedLine(w/3, 90f, paint)
-            canvas.drawRotatedLine(w/5, -30f, paint)
+            canvas.drawRotatedLine(w/3, 90f, state.scale, paint)
+            canvas.drawRotatedLine(w/5, -30f, state.scale, paint)
             canvas.restore()
         }
 
@@ -133,10 +133,10 @@ class EightOClockView (ctx : Context) : View(ctx) {
 
 }
 
-fun Canvas.drawRotatedLine (w : Float, deg : Float, paint : Paint) {
+fun Canvas.drawRotatedLine (w : Float, deg : Float, scale : Float, paint : Paint) {
     paint.strokeCap = Paint.Cap.ROUND
     save()
-    rotate(deg)
+    rotate(deg * scale)
     drawLine(0f, 0f, -w, 0f, paint)
     restore()
 }
